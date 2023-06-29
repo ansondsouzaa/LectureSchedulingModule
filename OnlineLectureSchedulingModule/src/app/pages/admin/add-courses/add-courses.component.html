@@ -1,0 +1,65 @@
+<div class="container row">
+    <form class="login-form" [formGroup]="courseForm" (ngSubmit)="submitCourse()">
+        <h2>Add Course</h2>
+        <!-- Course name -->
+        <mat-form-field class="input-full-width">
+            <mat-label>Course Name</mat-label>
+            <input matInput placeholder="Ex. Java" formControlName="name" required>
+        </mat-form-field>
+        <!-- Level field -->
+        <mat-form-field class="input-full-width">
+            <mat-label>Level</mat-label>
+            <mat-select formControlName="level" required placeholder="Ex. Basic">
+                <mat-option value="Basic">Basic</mat-option>
+                <mat-option value="Intermediate">Intermediate</mat-option>
+                <mat-option value="Advanced">Advanced</mat-option>
+                <mat-option value="Expert">Expert</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- Description field -->
+        <mat-form-field class="input-full-width">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Ex. Java is a programming language" formControlName="description" required>
+        </mat-form-field>
+        <!-- Image field -->
+        <div>
+            <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event)" #fileUpload>
+            <div class="file-upload mb">
+                <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()" type="button">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+                {{fileUpload.value || "Upload Course Image"}}
+            </div>
+            <!-- <div *ngIf="selectedFile" class="mb">
+                <img [src]="selectedFile" alt="Selected Image" class="selected-image">
+            </div> -->
+        </div>
+        <!-- add lectures -->
+        <button mat-raised-button color="accent" type="button" (click)="addLecture()">Add Lectures/ Batches</button>
+        <!-- Additional fields (select and datepicker) -->
+        <!-- display loop for more fields -->
+        <div formArrayName="lectures">
+            <div *ngFor="let lecture of lectures.controls; let i = index" [formGroupName]="i" class="row" style="gap: 1rem; margin-top: 1rem;">
+                <mat-form-field>
+                    <mat-label>Select Instructor</mat-label>
+                    <mat-select formControlName="instructorId" (selectionChange)="onInstructorChange($event)">
+                        <mat-option *ngFor="let instructor of instructors" [value]="instructor._id">
+                            {{instructor.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Choose batch date</mat-label>
+                    <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="date" (dateChange)="onDateChange($event)">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="removeLecture(i)" type="button">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <button mat-raised-button color="primary" type="submit" class="submit" [disabled]="courseForm.invalid && hasOtherLecture"
+            style="margin-top: 1rem;">Submit</button>
+    </form>
+</div>

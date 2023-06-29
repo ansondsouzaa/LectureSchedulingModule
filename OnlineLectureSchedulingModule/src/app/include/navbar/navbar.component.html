@@ -1,0 +1,14 @@
+<header class="row">
+    <div class="container">
+        <div class="row jcsb">
+            <h1 class="logo">Online Lecture Scheduling Module</h1>
+            <div class="row jcsb" style="gap:1rem">
+                <button mat-stroked-button matTooltip="View instructors list" routerLink="/admin/dashboard" *ngIf="role === admin">Instructors</button>
+                <button mat-stroked-button matTooltip="View courses list" routerLink="/admin/courses" *ngIf="role === admin">Courses</button>
+                <button mat-stroked-button color="warn" matTooltip="Log out" (click)="logout()" *ngIf="role !== null">
+                    <mat-icon>logout</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>

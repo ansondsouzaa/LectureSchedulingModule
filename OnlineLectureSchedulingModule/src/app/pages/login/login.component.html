@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-100">
+            <mat-tab-group>
+                <!-- Instructor Login -->
+                <mat-tab label="Instructor Login">
+                    <div class="row">
+                        <form class="login-form" [formGroup]="instructorLoginForm" (ngSubmit)="proceedInstructorLogin()">
+                            <h1>Login as Instructor</h1>
+                            <mat-form-field class="input-full-width">
+                                <mat-label>Enter your email</mat-label>
+                                <input matInput placeholder="" formControlName="email">
+                            </mat-form-field>
+                            <mat-form-field class="input-full-width">
+                                <mat-label>Enter your password</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="hide" type="button">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" type="submit" class="submit">Submit</button>
+                        </form>
+                    </div>
+                </mat-tab>
+                <!-- Admin Login -->
+                <mat-tab label="Admin Login">
+                    <div class="row">
+                        <form class="login-form" [formGroup]="adminLoginForm" (ngSubmit)="proceedAdminLogin()">
+                            <h1>Login as Admin</h1>
+                            <mat-form-field class="input-full-width">
+                                <mat-label>Enter your email</mat-label>
+                                <input matInput placeholder="" formControlName="email">
+                            </mat-form-field>
+                            <mat-form-field class="input-full-width">
+                                <mat-label>Enter your password</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="hide" type="button">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" type="submit" class="submit">Submit</button>
+                        </form>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

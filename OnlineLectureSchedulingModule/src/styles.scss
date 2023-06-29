@@ -1,0 +1,167 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 100%;
+    outline: none;
+    letter-spacing: 0.5px;
+    max-width: 100%;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+main {
+    min-height: 80vh;
+}
+
+.container {
+    width: 1090px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+
+    .col-10 {
+        min-width: 10%;
+    }
+
+    .col-15 {
+        min-width: 15%;
+    }
+
+    .col-20 {
+        min-width: 20%;
+    }
+
+    .col-25 {
+        min-width: 25%;
+    }
+
+    .col-30 {
+        min-width: 30%;
+    }
+
+    .col-35 {
+        min-width: 30%;
+    }
+
+    .col-40 {
+        min-width: 40;
+    }
+
+    .col-45 {
+        min-width: 45;
+    }
+
+    .col-50 {
+        min-width: 50;
+    }
+
+    .col-55 {
+        min-width: 55%;
+    }
+
+    .col-60 {
+        min-width: 60%;
+    }
+
+    .col-65 {
+        min-width: 65%;
+    }
+
+    .col-70 {
+        min-width: 70%;
+    }
+
+    .col-75 {
+        min-width: 75%;
+    }
+
+    .col-80 {
+        min-width: 80%;
+    }
+
+    .col-85 {
+        min-width: 85%;
+    }
+
+    .col-90 {
+        min-width: 90%;
+    }
+
+    .col-95 {
+        min-width: 95%;
+    }
+
+    .col-100 {
+        min-width: 100%;
+    }
+}
+
+.flexdr {
+    flex-direction: column;
+}
+
+.jifs {
+    justify-content: flex-start;
+}
+
+.aifs {
+    align-items: flex-start;
+}
+
+.jcsb {
+    justify-content: space-between;
+}
+
+.jcse {
+    justify-content: space-evenly;
+}
+
+.mt {
+    margin-top: 1rem;
+}
+
+.mb {
+    margin-bottom: 1rem;
+}
+
+.mat-mdc-select-arrow {
+    width: 30px !important;
+}
+
+.maxheight200 {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.maxheight500 {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+    box-shadow: none;
+}
+
+.custom-grid-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+}
+
+.grid3{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}

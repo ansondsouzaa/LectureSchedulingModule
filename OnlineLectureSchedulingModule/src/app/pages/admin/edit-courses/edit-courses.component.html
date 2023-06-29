@@ -1,0 +1,69 @@
+<div class="container" *ngIf="course">
+    <h2>View / Update Course</h2>
+    <div class="row jcsb">
+        <div class="col-50">
+            <mat-card class="example-card">
+                <mat-card-header class="mb">
+                    <!-- <div mat-card-avatar></div> -->
+                    <mat-card-title>{{course.name}}</mat-card-title>
+                    <mat-card-subtitle>{{course.level | uppercase }}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="{{course.image}}" alt="course-image" width="100%" height="200px">
+                <mat-card-content class="mt mb">
+                    <p>
+                        {{ course.description}}
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-60">
+            <!-- data table -->
+            <table mat-table [dataSource]="course.lectures" class="mb maxheight500">
+                <!-- Instructor Column -->
+                <ng-container matColumnDef="Instructor">
+                    <th mat-header-cell *matHeaderCellDef> Instructor </th>
+                    <td mat-cell *matCellDef="let lecture"> {{lecture.instructorId.name}} </td>
+                </ng-container>
+                <!-- date Column -->
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                    <td mat-cell *matCellDef="let lecture"> {{lecture.date | date}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <!-- Form Start -->
+            <form class="login-form" [formGroup]="form" (ngSubmit)="updateCourse()">
+                <div class="mt">
+                    <button mat-raised-button color="accent" type="button" (click)="addLecture()">Add Lectures/
+                        Batches</button>
+                </div>
+                <div formArrayName="lectures">
+                    <div *ngFor="let lecture of lectures.controls; let i = index;" [formGroupName]="i" class="row"
+                        style="gap: 1rem; margin-top: 1rem;">
+                        <mat-form-field>
+                            <mat-label>Select Instructor</mat-label>
+                            <mat-select formControlName="instructorId" (selectionChange)="onInstructorChange($event)">
+                                <mat-option *ngFor="let instructor of instructors" [value]="instructor._id">
+                                    {{instructor.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Choose batch date</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                formControlName="date" (dateChange)="onDateChange($event)">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <button mat-icon-button color="warn" (click)="removeLecture(i)" type="button">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <button mat-raised-button color="primary" type="submit" class="submit" [disabled]="hasOtherLecture"
+                    style="margin-top: 1rem;">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
