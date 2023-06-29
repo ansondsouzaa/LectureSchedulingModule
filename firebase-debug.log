@@ -1,0 +1,44 @@
+[debug] [2023-06-29T17:40:53.072Z] ----------------------------------------------------------------------
+[debug] [2023-06-29T17:40:53.074Z] Command:       /opt/homebrew/Cellar/node/20.1.0/bin/node /opt/homebrew/bin/firebase init
+[debug] [2023-06-29T17:40:53.074Z] CLI Version:   12.4.2
+[debug] [2023-06-29T17:40:53.074Z] Platform:      darwin
+[debug] [2023-06-29T17:40:53.074Z] Node Version:  v20.1.0
+[debug] [2023-06-29T17:40:53.074Z] Time:          Thu Jun 29 2023 23:10:53 GMT+0530 (India Standard Time)
+[debug] [2023-06-29T17:40:53.074Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-29T17:40:53.113Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-29T17:40:53.113Z] > authorizing via signed-in user (ansondsouza73.lithan@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/ansond_07/Desktop/Desktop/Work/Interviews/IMGithub/LectureSchedulingModule
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-06-29T17:40:55.617Z] Using project from CLI flag: online-lsm
+[debug] [2023-06-29T17:40:55.618Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/online-lsm [none]
+[debug] [2023-06-29T17:40:56.277Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/online-lsm 200
+[debug] [2023-06-29T17:40:56.277Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/online-lsm {"projectId":"online-lsm","projectNumber":"777889254671","displayName":"Online LSM","name":"projects/online-lsm","resources":{"hostingSite":"online-lsm"},"state":"ACTIVE","etag":"1_9404d3ed-d3ce-4038-9e41-9d5fe8e8e845"}
+[info] i  Using project online-lsm (Online LSM) 
+[info] 
+=== Hosting Setup
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
