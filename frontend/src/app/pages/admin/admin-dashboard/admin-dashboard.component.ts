@@ -17,35 +17,40 @@ interface Instructor {
 export class AdminDashboardComponent {
   role: any;
   admin = 'admin';
+  progress = true;
 
   constructor(
     private router: Router,
     private auth: AuthService,
     private toastr: ToastrService
   ) {
-    this.getInstructors();
   }
 
   ngOnInit(): void {
     this.router.events.subscribe(() => {
       this.role = sessionStorage.getItem('role');
     });
+    this.getInstructors();
+    if(this.instructors.length > 0){
+      this.progress = false;
+    }
   }
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
   instructors: Instructor[] = [];
+  token = sessionStorage.getItem('token');
   getInstructors() {
-    this.auth.getAllInstructors().subscribe(
+    this.auth.getAllInstructor(this.token).subscribe(
       (res: any) => {
         this.instructors = res.instructors;
       },
       (error) => {
         const errorMessage = error.message;
-        this.toastr.error("Some error occured couldn't fetch data", '', {
-          positionClass: 'toast-bottom-right',
+        this.toastr.error("Some error occured couldn't fetch data", "", {
+          positionClass: "toast-bottom-right",
         });
-        return errorMessage();
+        return errorMessage;
       }
     );
   }
@@ -54,5 +59,9 @@ export class AdminDashboardComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     const value: any = filterValue.trim().toLowerCase();
     this.instructors.filter = value;
+  }
+
+  ngOnDestroy() {
+    this.getInstructors();
   }
 }

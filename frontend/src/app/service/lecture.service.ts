@@ -4,19 +4,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LectureService {
   constructor(private http: HttpClient) {}
-  token = sessionStorage.getItem('token'); // Get the token from sessionStorage
+  token = sessionStorage.getItem("token"); // Get the token from sessionStorage
   auth = {
-    Authorization: `Bearer ${this.token}`, // Include the token in the Authorization header
+    Authorization: "Bearer " + this.token, // Include the token in the Authorization header
   };
 
-  apiUrl = 'https://tame-ruby-duckling-sock.cyclic.app/api/lectures/';
+  apiUrl = "https://tame-ruby-duckling-sock.cyclic.app/api/lectures/";
 
   checkLectures(instructorId: string, date: string): Observable<any> {
-    const formattedDate = formatDate(date, 'yyyy-MM-dd', 'en-US');
+    const formattedDate = formatDate(date, "yyyy-MM-dd", "en-US");
     const headers = this.auth;
     return this.http.get(
       `${this.apiUrl}check/?instructorId=${instructorId}&date=${formattedDate}`,
@@ -24,9 +24,9 @@ export class LectureService {
     );
   }
 
-  addNewLectures(courseData: any) {
+  addNewLectures(lectureData: any) {
     const headers = this.auth;
-    console.log(courseData);
-    return this.http.post(this.apiUrl + 'new', courseData, { headers });
+    console.log(lectureData);
+    return this.http.post(this.apiUrl + "new", lectureData, { headers });
   }
 }

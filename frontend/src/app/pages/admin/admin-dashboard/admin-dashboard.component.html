@@ -5,10 +5,6 @@
         <button mat-flat-button color="primary" style="padding: 1.5rem 3rem" matTooltip="Create new instructor" routerLink="/admin/add-instructor">New Instructor</button>
     </div>
     <table mat-table [dataSource]="instructors" class="mat-elevation-z8 mt">
-
-        <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-
         <!-- Position Column -->
         <ng-container matColumnDef="position">
             <th mat-header-cell *matHeaderCellDef> NO. </th>

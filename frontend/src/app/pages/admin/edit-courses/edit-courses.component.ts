@@ -7,9 +7,9 @@ import { CourseService } from 'src/app/service/course.service';
 import { LectureService } from 'src/app/service/lecture.service';
 
 @Component({
-  selector: 'app-edit-courses',
-  templateUrl: './edit-courses.component.html',
-  styleUrls: ['./edit-courses.component.scss'],
+  selector: "app-edit-courses",
+  templateUrl: "./edit-courses.component.html",
+  styleUrls: ["./edit-courses.component.scss"],
 })
 export class EditCoursesComponent {
   selectedFile: File | null = null;
@@ -22,7 +22,7 @@ export class EditCoursesComponent {
   course: any;
   courseId: any;
   lectureList: any[] = [];
-  displayedColumns: string[] = ['Instructor', 'date'];
+  displayedColumns: string[] = ["Instructor", "date"];
 
   constructor(
     private builder: FormBuilder,
@@ -40,7 +40,7 @@ export class EditCoursesComponent {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       // get course by id
-      this.courseId = params['id'];
+      this.courseId = params["id"];
       this.getCourseById();
     });
   }
@@ -52,7 +52,7 @@ export class EditCoursesComponent {
         this.course = response;
       },
       (error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     );
   }
@@ -96,18 +96,18 @@ export class EditCoursesComponent {
           (response: any) => {
             if (response.hasLecture) {
               this.toastr.warning(
-                'Instructor is not available for the selected date',
-                'Try a different date',
+                "Instructor is not available for the selected date",
+                "Try a different date",
                 {
-                  positionClass: 'toast-bottom-right',
+                  positionClass: "toast-bottom-right",
                 }
               );
             }
             this.hasOtherLecture = response.hasLecture;
           },
           (error: any) => {
-            this.toastr.error('Error checking instructor lecture', '', {
-              positionClass: 'toast-bottom-right',
+            this.toastr.error("Error checking instructor lecture", "", {
+              positionClass: "toast-bottom-right",
             });
             // console.error('Error checking instructor lecture:', error);
           }
@@ -122,15 +122,15 @@ export class EditCoursesComponent {
 
   // array of lectures to assign for a course
   get lectures(): FormArray {
-    return this.form.get('lectures') as FormArray;
+    return this.form.get("lectures") as FormArray;
   }
 
   // lecture formgroup
   addLecture(): void {
     this.getInstructors();
     const lectureFormGroup: FormGroup = this.builder.group({
-      date: this.builder.control('', Validators.required),
-      instructorId: this.builder.control('', Validators.required),
+      date: this.builder.control("", Validators.required),
+      instructorId: this.builder.control("", Validators.required),
     });
     this.lectures.push(lectureFormGroup);
   }
@@ -140,33 +140,55 @@ export class EditCoursesComponent {
     this.lectures.removeAt(index);
   }
 
+  removeAllLectures(): void {
+    while (this.lectures.length !== 0) {
+      this.lectures.removeAt(0);
+    }
+  }
+
   // add lectures to course method
   updateCourse() {
     if (this.form.value.lectures.length != 0) {
-      const lectureData = new FormData();
-      lectureData.append('courseId', this.courseId);
       const lectures = this.form.value.lectures.map((lecture: any) => {
         return {
-          date: new Date(lecture.date).toISOString().split('T')[0], // Extract date portion and convert to ISO string
+          date: new Date(lecture.date).toISOString().split("T")[0], // Extract date portion and convert to ISO string
           instructorId: lecture.instructorId,
         };
       });
-      lectureData.append('lectures', JSON.stringify(lectures));
+      const lectureData = {
+        courseId: this.courseId,
+        lectures: lectures,
+      };
       this.lectureService.addNewLectures(lectureData).subscribe(
         (response) => {
-          this.toastr.success('Lectures added successfully');
+          this.toastr.success("Lectures added successfully");
+          this.removeAllLectures();
           this.getCourseById();
         },
         (error) => {
-          console.error('Error submitting form:', error);
-          this.toastr.error('Error submitting form', '', {
-            positionClass: 'toast-bottom-right',
+          console.log(error, 'error');
+          console.log(error.message, 'message')
+          if (
+            error.error.error.includes(
+              "Instructor already assigned to a lecture on the same date.")
+          ) {
+            this.toastr.warning(
+              "Instructor already assigned to a lecture on the same date",
+              "",
+              {
+                positionClass: "toast-bottom-right",
+              }
+            );
+          }
+            console.error("Error submitting form:", error);
+          this.toastr.error("Error submitting form", "", {
+            positionClass: "toast-bottom-right",
           });
         }
       );
     } else {
-      this.toastr.warning('Add a lecture before clicking on submit.', '', {
-        positionClass: 'toast-bottom-right',
+      this.toastr.warning("Add a lecture before clicking on submit.", "", {
+        positionClass: "toast-bottom-right",
       });
     }
   }
