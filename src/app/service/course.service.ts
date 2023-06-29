@@ -11,7 +11,7 @@ export class CourseService {
     Authorization: `Bearer ${this.token}`, // Include the token in the Authorization header
   };
 
-  apiUrl = 'http://localhost:1000/api/courses/';
+  apiUrl = 'https://tame-ruby-duckling-sock.cyclic.app/api/courses/';
 
   // create a new course
   addCourse(courseData: any) {

@@ -13,7 +13,7 @@ export class LectureService {
     Authorization: `Bearer ${this.token}`, // Include the token in the Authorization header
   };
 
-  apiUrl = 'http://localhost:1000/api/lectures/';
+  apiUrl = 'https://tame-ruby-duckling-sock.cyclic.app/api/lectures/';
 
   checkLectures(instructorId: string, date: string): Observable<any> {
     const formattedDate = formatDate(date, 'yyyy-MM-dd', 'en-US');

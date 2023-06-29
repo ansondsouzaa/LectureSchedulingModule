@@ -12,8 +12,8 @@ export class AuthService {
     Authorization: `Bearer ${this.token}`, // Include the token in the Authorization header
   };
 
-  authUrl = 'http://localhost:1000/api/auth/';
-  userUrl = 'http://localhost:1000/api/users/instructors';
+  authUrl = 'https://tame-ruby-duckling-sock.cyclic.app/api/auth/';
+  userUrl = 'https://tame-ruby-duckling-sock.cyclic.app/api/users/instructors';
 
   loginUser(inputData: any) {
     return this.http.post(this.authUrl + 'login', inputData);
