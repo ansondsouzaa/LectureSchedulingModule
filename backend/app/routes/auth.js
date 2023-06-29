@@ -28,6 +28,7 @@ router.post("/add-instructor", async (req, res, next) => {
 // User login route
 router.post("/login", async (req, res, next) => {
   try {
+    console.log('Login initiated');
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
