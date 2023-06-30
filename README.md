@@ -17,6 +17,19 @@ This is a Online Lecture Scheduling Module project that allows you to manage cou
 - Node.js installed on your machine
 - MongoDB installed and running
 
+## Routes
+
+- Main URL : https://online-lsm.web.app (Redirects to login page)
+- Login page: https://online-lsm.web.app/login
+
+ADMIN
+- Dashboard: https://online-lsm.web.app/admin/dashboard (Can see list of instructors and add button)
+- Courses: https://online-lsm.web.app/admin/courses (Can see list of courses and add button)
+- Courses View: https://online-lsm.web.app/admin/edit-courses/:id (id has course id to view the courseas and lectures and add more lectures)
+
+INSTRUCTOR
+- Dashboard: https://online-lsm.web.app/instructor/dashboard (Can see only list of courses alloted with respect to the instructor)
+
 ### Installation
 
 1. Clone the repository:
