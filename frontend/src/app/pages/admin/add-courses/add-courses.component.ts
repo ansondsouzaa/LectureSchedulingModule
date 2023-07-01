@@ -75,25 +75,19 @@ export class AddCoursesComponent implements OnDestroy {
   // Submit Course Form
   submitCourse() {
     if (this.courseForm.valid && this.selectedFile) {
-      // const courseData = new FormData();
-      // courseData.append("name", this.courseForm.value.name);
-      // courseData.append("level", this.courseForm.value.level);
-      // courseData.append("description", this.courseForm.value.description);
-      // courseData.append("image", this.courseForm.value.image);
+      const courseData = new FormData();
+      courseData.append("name", this.courseForm.value.name);
+      courseData.append("level", this.courseForm.value.level);
+      courseData.append("description", this.courseForm.value.description);
+      courseData.append("image", this.courseForm.value.image);
       const lectures = this.courseForm.value.lectures.map((lecture: any) => {
         return {
           date: new Date(lecture.date).toISOString().split("T")[0], // Extract date portion and convert to ISO string
           instructorId: lecture.instructorId,
         };
       });
-      // courseData.append("lectures", JSON.stringify(lectures));
-      const courseData = {
-        name: this.courseForm.value.name,
-        level: this.courseForm.value.level,
-        description: this.courseForm.value.description,
-        image: this.courseForm.value.image,
-        lectures: lectures,
-      };
+      courseData.append("lectures", JSON.stringify(lectures));
+
       this.service.addCourse(courseData, this.token).subscribe(
         (response) => {
           this.toastr.success(

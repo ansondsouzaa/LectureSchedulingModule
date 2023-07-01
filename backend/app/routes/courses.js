@@ -30,7 +30,8 @@ const upload = multer({ storage: storage });
 router.post("/create", upload.single("image"), auth, async (req, res) => {
   try {
     console.log(req.body);
-    const { name, level, description, lectures = [] } = req.body;
+    const { name, level, description, lectures: batch = [] } = req.body;
+    const lectures = JSON.parse(batch);
     const imageUrl = req.file.path;
     const course = new Course({
       name,

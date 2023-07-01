@@ -17,13 +17,6 @@ export class CourseService {
     return this.http.post(this.apiUrl + "create", courseData, { headers });
   }
 
-  uploadImage(image: any, token: string) {
-    const headers = {
-      Authorization: "Bearer " + token,
-    };
-    return this.http.post(this.apiUrl + "create", image, { headers });
-  }
-
   getCourseById(id: any, token: string) {
     const headers = {
       Authorization: "Bearer " + token,
