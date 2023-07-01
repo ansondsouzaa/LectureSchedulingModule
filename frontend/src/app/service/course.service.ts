@@ -17,6 +17,14 @@ export class CourseService {
     return this.http.post(this.apiUrl + "create", courseData, { headers });
   }
 
+  // Upload image in cloudinary
+  uploadImage(fileData: any) {
+    return this.http.post(
+      "https://api.cloudinary.com/v1_1/dvl7ah74b/image/course-images",
+      fileData
+    );
+  }
+
   getCourseById(id: any, token: string) {
     const headers = {
       Authorization: "Bearer " + token,

@@ -1,10 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/service/auth.service';
-import { CourseService } from 'src/app/service/course.service';
-import { LectureService } from 'src/app/service/lecture.service';
+import { Component, OnDestroy } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/service/auth.service";
+import { CourseService } from "src/app/service/course.service";
+import { LectureService } from "src/app/service/lecture.service";
 
 @Component({
   selector: "app-add-courses",
@@ -78,29 +78,47 @@ export class AddCoursesComponent implements OnDestroy {
   // Submit Course Form
   submitCourse() {
     if (this.courseForm.valid && this.selectedFile) {
-      const courseData = new FormData();
-      courseData.append("name", this.courseForm.value.name);
-      courseData.append("level", this.courseForm.value.level);
-      courseData.append("description", this.courseForm.value.description);
-      courseData.append("image", this.courseForm.value.image);
       const lectures = this.courseForm.value.lectures.map((lecture: any) => {
         return {
           date: new Date(lecture.date).toISOString().split("T")[0], // Extract date portion and convert to ISO string
           instructorId: lecture.instructorId,
         };
       });
-      courseData.append("lectures", JSON.stringify(lectures));
+      // Upload image to Cloudinary
+      const fileData = new FormData();
+      fileData.append("file", this.selectedFile);
+      fileData.append("upload_preset", "ml_default");
 
-      this.service.addCourse(courseData, this.token).subscribe(
-        (response) => {
-          this.toastr.success(
-            this.courseForm.value.name + " course created successfully"
+      this.service.uploadImage(fileData).subscribe(
+        (response: any) => {
+          const imageUrl = response["url"]; // To extract the uploaded image URL from the Cloudinary API response
+          // Create course data
+          const courseData = {
+            name: this.courseForm.value.name,
+            level: this.courseForm.value.level,
+            description: this.courseForm.value.description,
+            image: imageUrl, // Store the Cloudinary image URL as a string
+            lectures: JSON.stringify(lectures),
+          };
+
+          this.service.addCourse(courseData, this.token).subscribe(
+            (response) => {
+              this.toastr.success(
+                this.courseForm.value.name + " course created successfully"
+              );
+              this.router.navigate(["/admin/courses"]);
+            },
+            (error) => {
+              console.error("Error submitting form:", error);
+              this.toastr.error("Error submitting form", "", {
+                positionClass: "toast-bottom-right",
+              });
+            }
           );
-          this.router.navigate(["/admin/courses"]);
         },
         (error) => {
-          console.error("Error submitting form:", error);
-          this.toastr.error("Error submitting form", "", {
+          console.error("Error uploading image:", error);
+          this.toastr.error("Error uploading image", "", {
             positionClass: "toast-bottom-right",
           });
         }

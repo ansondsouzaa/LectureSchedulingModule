@@ -4,39 +4,17 @@ const router = express.Router();
 const Course = require("../models/Course");
 const auth = require("../middleware/authMiddleware");
 const Lecture = require("../models/Lecture");
-const cloudinary = require("cloudinary").v2;
-const User = require("../models/User");
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Configure multer and Cloudinary storage
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "course-images",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
-  },
-});
-const upload = multer({ storage: storage });
 
 // create new course
-router.post("/create", upload.single("image"), auth, async (req, res) => {
+router.post("/create", auth, async (req, res) => {
   try {
     console.log(req.body);
-    const { name, level, description, lectures = [] } = req.body;
-    const imageUrl = req.file.path;
+    const { name, level, description, image, lectures = [] } = req.body;
     const course = new Course({
       name,
       level,
       description,
-      image: imageUrl, // Store the Cloudinary URL in the image field
+      image, // Store the Cloudinary URL in the image field
     });
     await course.save();
     const courseId = course._id;
