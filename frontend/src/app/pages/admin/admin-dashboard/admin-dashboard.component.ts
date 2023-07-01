@@ -10,36 +10,35 @@ interface Instructor {
 }
 
 @Component({
-  selector: 'app-admin-dashboard',
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.scss'],
+  selector: "app-admin-dashboard",
+  templateUrl: "./admin-dashboard.component.html",
+  styleUrls: ["./admin-dashboard.component.scss"],
 })
 export class AdminDashboardComponent {
   role: any;
-  admin = 'admin';
+  admin = "admin";
   progress = true;
+  instructors: Instructor[] = [];
+  token: any = sessionStorage.getItem("token");
 
   constructor(
     private router: Router,
     private auth: AuthService,
     private toastr: ToastrService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe(() => {
-      this.role = sessionStorage.getItem('role');
+      this.role = sessionStorage.getItem("role");
     });
     this.getInstructors();
-    if(this.instructors.length > 0){
+    if (this.instructors.length > 0) {
       this.progress = false;
     }
   }
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ["position", "name", "weight", "symbol"];
 
-  instructors: Instructor[] = [];
-  token = sessionStorage.getItem('token');
   getInstructors() {
     this.auth.getAllInstructor(this.token).subscribe(
       (res: any) => {

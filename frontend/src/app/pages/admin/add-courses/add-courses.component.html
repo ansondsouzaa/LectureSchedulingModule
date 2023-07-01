@@ -28,7 +28,7 @@
                 <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()" type="button">
                     <mat-icon>attach_file</mat-icon>
                 </button>
-                {{fileUpload.value || "Upload Course Image"}}
+                {{fileUpload.value | slice:12:100 || "Upload Course Image"}}
             </div>
             <!-- <div *ngIf="selectedFile" class="mb">
                 <img [src]="selectedFile" alt="Selected Image" class="selected-image">

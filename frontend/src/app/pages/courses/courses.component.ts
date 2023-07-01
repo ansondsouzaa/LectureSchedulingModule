@@ -21,12 +21,14 @@ interface Lectures {
 }
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss'],
+  selector: "app-courses",
+  templateUrl: "./courses.component.html",
+  styleUrls: ["./courses.component.scss"],
 })
 export class CoursesComponent {
   panelOpenState = false;
+  token: any = sessionStorage.getItem("token");
+
   constructor(
     private service: CourseService,
     private toastr: ToastrService,
@@ -39,23 +41,23 @@ export class CoursesComponent {
 
   courses: Courses[] = [];
   getAllCourses() {
-    this.service.getAllCourses().subscribe(
+    this.service.getAllCourses(this.token).subscribe(
       (res: any) => {
         this.courses = res.courses;
       },
       (error) => {
         const errorMessage = error.message;
-        this.toastr.error("Some error occured couldn't fetch data", '', {
-          positionClass: 'toast-bottom-right',
+        this.toastr.error("Some error occured couldn't fetch data", "", {
+          positionClass: "toast-bottom-right",
         });
         return errorMessage();
       }
     );
   }
 
-  displayedColumns: string[] = ['Instructor', 'date'];
+  displayedColumns: string[] = ["Instructor", "date"];
 
   addLectures(id: any) {
-    this.router.navigate(['/admin/edit-course', id]);
+    this.router.navigate(["/admin/edit-course", id]);
   }
 }

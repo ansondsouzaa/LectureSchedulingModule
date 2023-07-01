@@ -7,31 +7,23 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  token = sessionStorage.getItem("token"); // Get the token from sessionStorage
-  auth = {
-    Authorization: "Bearer " + this.token, // Include the token in the Authorization header
-  };
-
-  authUrl = "https://tame-ruby-duckling-sock.cyclic.app/api/auth/";
-  userUrl = "https://tame-ruby-duckling-sock.cyclic.app/api/users/instructors";
+  authUrl = "https://olsm-backend.onrender.com/api/auth/";
+  userUrl = "https://olsm-backend.onrender.com/api/users/instructors";
 
   loginUser(inputData: any) {
     return this.http.post(this.authUrl + "login", inputData);
   }
 
-  addInstructor(inputData: any) {
-    const headers = this.auth;
+  addInstructor(inputData: any, token: string) {
+    const headers = {
+      Authorization: "Bearer " + token,
+    };
     return this.http.post(this.authUrl + "add-instructor", inputData, {
       headers,
     });
   }
 
-  getAllInstructors() {
-    const headers = this.auth;
-    return this.http.get(this.userUrl, { headers });
-  }
-
-  getAllInstructor(token: any) {
+  getAllInstructor(token: string) {
     const headers = {
       Authorization: "Bearer " + token,
     };

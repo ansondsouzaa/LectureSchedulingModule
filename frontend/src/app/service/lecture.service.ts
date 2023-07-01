@@ -8,24 +8,24 @@ import { Observable } from 'rxjs';
 })
 export class LectureService {
   constructor(private http: HttpClient) {}
-  token = sessionStorage.getItem("token"); // Get the token from sessionStorage
-  auth = {
-    Authorization: "Bearer " + this.token, // Include the token in the Authorization header
-  };
 
-  apiUrl = "https://tame-ruby-duckling-sock.cyclic.app/api/lectures/";
+  apiUrl = "https://olsm-backend.onrender.com/api/lectures/";
 
-  checkLectures(instructorId: string, date: string): Observable<any> {
+  checkLectures(instructorId: string, date: string, token: string): Observable<any> {
     const formattedDate = formatDate(date, "yyyy-MM-dd", "en-US");
-    const headers = this.auth;
+    const headers = {
+      Authorization: "Bearer " + token,
+    };
     return this.http.get(
       `${this.apiUrl}check/?instructorId=${instructorId}&date=${formattedDate}`,
       { headers }
     );
   }
 
-  addNewLectures(lectureData: any) {
-    const headers = this.auth;
+  addNewLectures(lectureData: any, token: string) {
+    const headers = {
+      Authorization: "Bearer " + token,
+    };
     console.log(lectureData);
     return this.http.post(this.apiUrl + "new", lectureData, { headers });
   }

@@ -7,9 +7,9 @@ import { CourseService } from 'src/app/service/course.service';
 import { LectureService } from 'src/app/service/lecture.service';
 
 @Component({
-  selector: 'app-add-courses',
-  templateUrl: './add-courses.component.html',
-  styleUrls: ['./add-courses.component.scss'],
+  selector: "app-add-courses",
+  templateUrl: "./add-courses.component.html",
+  styleUrls: ["./add-courses.component.scss"],
 })
 export class AddCoursesComponent implements OnDestroy {
   selectedFile: File | null = null;
@@ -19,6 +19,7 @@ export class AddCoursesComponent implements OnDestroy {
   instructorId: any;
   hasOtherLecture: any;
   instructors: any[] = [];
+  token: any = sessionStorage.getItem("token");
 
   constructor(
     private builder: FormBuilder,
@@ -41,10 +42,10 @@ export class AddCoursesComponent implements OnDestroy {
 
   // Course Form declaration and validation
   courseForm: FormGroup = this.builder.group({
-    name: this.builder.control('', Validators.compose([Validators.required])),
-    level: this.builder.control('', Validators.compose([Validators.required])),
+    name: this.builder.control("", Validators.compose([Validators.required])),
+    level: this.builder.control("", Validators.compose([Validators.required])),
     description: this.builder.control(
-      '',
+      "",
       Validators.compose([Validators.required])
     ),
     image: [null, Validators.required],
@@ -53,15 +54,15 @@ export class AddCoursesComponent implements OnDestroy {
 
   // array of lectures to assign for a course
   get lectures(): FormArray {
-    return this.courseForm.get('lectures') as FormArray;
+    return this.courseForm.get("lectures") as FormArray;
   }
 
   // lecture formgroup
   addLecture(): void {
     this.getInstructors();
     const lectureFormGroup: FormGroup = this.builder.group({
-      date: this.builder.control('', Validators.required),
-      instructorId: this.builder.control('', Validators.required),
+      date: this.builder.control("", Validators.required),
+      instructorId: this.builder.control("", Validators.required),
     });
     this.lectures.push(lectureFormGroup);
   }
@@ -74,38 +75,45 @@ export class AddCoursesComponent implements OnDestroy {
   // Submit Course Form
   submitCourse() {
     if (this.courseForm.valid && this.selectedFile) {
-      const courseData = new FormData();
-      courseData.append('name', this.courseForm.value.name);
-      courseData.append('level', this.courseForm.value.level);
-      courseData.append('description', this.courseForm.value.description);
-      courseData.append('image', this.courseForm.value.image);
+      // const courseData = new FormData();
+      // courseData.append("name", this.courseForm.value.name);
+      // courseData.append("level", this.courseForm.value.level);
+      // courseData.append("description", this.courseForm.value.description);
+      // courseData.append("image", this.courseForm.value.image);
       const lectures = this.courseForm.value.lectures.map((lecture: any) => {
         return {
-          date: new Date(lecture.date).toISOString().split('T')[0], // Extract date portion and convert to ISO string
+          date: new Date(lecture.date).toISOString().split("T")[0], // Extract date portion and convert to ISO string
           instructorId: lecture.instructorId,
         };
       });
-      courseData.append('lectures', JSON.stringify(lectures));
-      this.service.addCourse(courseData).subscribe(
+      // courseData.append("lectures", JSON.stringify(lectures));
+      const courseData = {
+        name: this.courseForm.value.name,
+        level: this.courseForm.value.level,
+        description: this.courseForm.value.description,
+        image: this.courseForm.value.image,
+        lectures: lectures,
+      };
+      this.service.addCourse(courseData, this.token).subscribe(
         (response) => {
           this.toastr.success(
-            this.courseForm.value.name + ' course created successfully'
+            this.courseForm.value.name + " course created successfully"
           );
-          this.router.navigate(['/admin/courses']);
+          this.router.navigate(["/admin/courses"]);
         },
         (error) => {
-          console.error('Error submitting form:', error);
-          this.toastr.error('Error submitting form', '', {
-            positionClass: 'toast-bottom-right',
+          console.error("Error submitting form:", error);
+          this.toastr.error("Error submitting form", "", {
+            positionClass: "toast-bottom-right",
           });
         }
       );
     } else {
       this.toastr.warning(
-        'Please make sure the values are valid and an image is selected.',
-        '',
+        "Please make sure the values are valid and an image is selected.",
+        "",
         {
-          positionClass: 'toast-bottom-right',
+          positionClass: "toast-bottom-right",
         }
       );
     }
@@ -113,7 +121,7 @@ export class AddCoursesComponent implements OnDestroy {
 
   // get all instructors
   getInstructors() {
-    this.auth.getAllInstructors().subscribe(
+    this.auth.getAllInstructor(this.token).subscribe(
       (res: any) => {
         this.instructors = res.instructors;
       },
@@ -144,23 +152,23 @@ export class AddCoursesComponent implements OnDestroy {
   checkInstructorLecture() {
     if (this.selectedDate && this.instructorId) {
       this.lectureService
-        .checkLectures(this.instructorId, this.selectedDate)
+        .checkLectures(this.instructorId, this.selectedDate, this.token)
         .subscribe(
           (response: any) => {
             if (response.hasLecture) {
               this.toastr.warning(
-                'Instructor is not available for the selected date',
-                'Try a different date',
+                "Instructor is not available for the selected date",
+                "Try a different date",
                 {
-                  positionClass: 'toast-bottom-right',
+                  positionClass: "toast-bottom-right",
                 }
               );
             }
             this.hasOtherLecture = response.hasLecture;
           },
           (error: any) => {
-            this.toastr.error('Error checking instructor lecture', '', {
-              positionClass: 'toast-bottom-right',
+            this.toastr.error("Error checking instructor lecture", "", {
+              positionClass: "toast-bottom-right",
             });
             // console.error('Error checking instructor lecture:', error);
           }

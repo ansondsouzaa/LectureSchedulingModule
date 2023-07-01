@@ -23,6 +23,7 @@ export class EditCoursesComponent {
   courseId: any;
   lectureList: any[] = [];
   displayedColumns: string[] = ["Instructor", "date"];
+  token: any = sessionStorage.getItem("token");
 
   constructor(
     private builder: FormBuilder,
@@ -47,7 +48,7 @@ export class EditCoursesComponent {
 
   // get course by id
   getCourseById() {
-    this.service.getCourseById(this.courseId).subscribe(
+    this.service.getCourseById(this.courseId, this.token).subscribe(
       (response: any) => {
         this.course = response;
       },
@@ -59,7 +60,7 @@ export class EditCoursesComponent {
 
   // get all instructors
   getInstructors() {
-    this.auth.getAllInstructors().subscribe(
+    this.auth.getAllInstructor(this.token).subscribe(
       (res: any) => {
         this.instructors = res.instructors;
       },
@@ -91,7 +92,7 @@ export class EditCoursesComponent {
   checkInstructorLecture() {
     if (this.selectedDate && this.instructorId) {
       this.lectureService
-        .checkLectures(this.instructorId, this.selectedDate)
+        .checkLectures(this.instructorId, this.selectedDate, this.token)
         .subscribe(
           (response: any) => {
             if (response.hasLecture) {
@@ -159,18 +160,19 @@ export class EditCoursesComponent {
         courseId: this.courseId,
         lectures: lectures,
       };
-      this.lectureService.addNewLectures(lectureData).subscribe(
+      this.lectureService.addNewLectures(lectureData, this.token).subscribe(
         (response) => {
           this.toastr.success("Lectures added successfully");
           this.removeAllLectures();
           this.getCourseById();
         },
         (error) => {
-          console.log(error, 'error');
-          console.log(error.message, 'message')
+          console.log(error, "error");
+          console.log(error.message, "message");
           if (
             error.error.error.includes(
-              "Instructor already assigned to a lecture on the same date.")
+              "Instructor already assigned to a lecture on the same date."
+            )
           ) {
             this.toastr.warning(
               "Instructor already assigned to a lecture on the same date",
@@ -180,7 +182,7 @@ export class EditCoursesComponent {
               }
             );
           }
-            console.error("Error submitting form:", error);
+          console.error("Error submitting form:", error);
           this.toastr.error("Error submitting form", "", {
             positionClass: "toast-bottom-right",
           });
