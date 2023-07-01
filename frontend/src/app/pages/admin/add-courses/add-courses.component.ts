@@ -34,6 +34,10 @@ export class AddCoursesComponent implements OnDestroy {
     this.maxDate.setDate(this.maxDate.getDate() + 60);
   }
 
+  ngOnInit() {
+    this.getInstructors();
+  }
+
   // Image selection method with event entry
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -59,7 +63,6 @@ export class AddCoursesComponent implements OnDestroy {
 
   // lecture formgroup
   addLecture(): void {
-    this.getInstructors();
     const lectureFormGroup: FormGroup = this.builder.group({
       date: this.builder.control("", Validators.required),
       instructorId: this.builder.control("", Validators.required),
