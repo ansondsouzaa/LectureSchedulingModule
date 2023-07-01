@@ -19,6 +19,7 @@ export class AddCoursesComponent implements OnDestroy {
   instructorId: any;
   hasOtherLecture: any;
   instructors: any[] = [];
+  previewUrl: any;
   token: any = sessionStorage.getItem("token");
 
   constructor(
@@ -42,6 +43,16 @@ export class AddCoursesComponent implements OnDestroy {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     this.courseForm.patchValue({ image: this.selectedFile });
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.previewUrl = null;
+    }
   }
 
   // Course Form declaration and validation
@@ -87,7 +98,7 @@ export class AddCoursesComponent implements OnDestroy {
       // Upload image to Cloudinary
       const fileData = new FormData();
       fileData.append("file", this.selectedFile);
-      fileData.append("upload_preset", "ml_default");
+      fileData.append("upload_preset", "fhfzcahy");
 
       this.service.uploadImage(fileData).subscribe(
         (response: any) => {
@@ -98,7 +109,7 @@ export class AddCoursesComponent implements OnDestroy {
             level: this.courseForm.value.level,
             description: this.courseForm.value.description,
             image: imageUrl, // Store the Cloudinary image URL as a string
-            lectures: JSON.stringify(lectures),
+            lectures: lectures,
           };
 
           this.service.addCourse(courseData, this.token).subscribe(

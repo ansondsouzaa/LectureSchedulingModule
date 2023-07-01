@@ -20,7 +20,7 @@ export class CourseService {
   // Upload image in cloudinary
   uploadImage(fileData: any) {
     return this.http.post(
-      "https://api.cloudinary.com/v1_1/dvl7ah74b/image/course-images",
+      "https://api.cloudinary.com/v1_1/dvl7ah74b/upload",
       fileData
     );
   }

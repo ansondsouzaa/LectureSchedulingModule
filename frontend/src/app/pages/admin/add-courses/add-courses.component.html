@@ -30,9 +30,9 @@
                 </button>
                 {{fileUpload.value | slice:12:100 || "Upload Course Image"}}
             </div>
-            <!-- <div *ngIf="selectedFile" class="mb">
-                <img [src]="selectedFile" alt="Selected Image" class="selected-image">
-            </div> -->
+            <div class="mb" *ngIf="previewUrl">
+                <img [src]="previewUrl" alt="Preview" width="100%">
+            </div>
         </div>
         <!-- add lectures -->
         <button mat-raised-button color="accent" type="button" (click)="addLecture()">Add Lectures/ Batches</button>
