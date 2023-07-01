@@ -16,9 +16,9 @@ const authMiddleware = async (req, res, next) => {
   } else {
     try {
       // Check if token exists in the request header
-      if (req.header("Authorization") == "") {
+      if (req.header("Authorization") === undefined) {
         throw new Error("Token not found");
-      }
+      } 
       const token = req.header("Authorization").replace("Bearer ", "");
       if (!token) {
         throw new Error("Invalid token");
