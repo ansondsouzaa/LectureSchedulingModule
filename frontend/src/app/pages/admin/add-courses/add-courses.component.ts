@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/service/auth.service";
 import { CourseService } from "src/app/service/course.service";
 import { LectureService } from "src/app/service/lecture.service";
+import * as moment from "moment";
 
 @Component({
   selector: "app-add-courses",
@@ -90,8 +91,9 @@ export class AddCoursesComponent implements OnDestroy {
   submitCourse() {
     if (this.courseForm.valid && this.selectedFile) {
       const lectures = this.courseForm.value.lectures.map((lecture: any) => {
+        const date = moment(lecture.date).format("YYYY-MM-DD");
         return {
-          date: new Date(lecture.date).toISOString().split("T")[0], // Extract date portion and convert to ISO string
+          date: date,
           instructorId: lecture.instructorId,
         };
       });

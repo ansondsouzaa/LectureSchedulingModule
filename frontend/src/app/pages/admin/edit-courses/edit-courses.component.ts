@@ -1,10 +1,11 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
 import { CourseService } from 'src/app/service/course.service';
 import { LectureService } from 'src/app/service/lecture.service';
+import * as moment from "moment";
 
 @Component({
   selector: "app-edit-courses",
@@ -151,8 +152,9 @@ export class EditCoursesComponent {
   updateCourse() {
     if (this.form.value.lectures.length != 0) {
       const lectures = this.form.value.lectures.map((lecture: any) => {
+        const date = moment(lecture.date).format("YYYY-MM-DD");
         return {
-          date: new Date(lecture.date).toISOString().split("T")[0], // Extract date portion and convert to ISO string
+          date: date,
           instructorId: lecture.instructorId,
         };
       });
