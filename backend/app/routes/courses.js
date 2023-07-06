@@ -22,12 +22,12 @@ router.post("/create", auth, async (req, res) => {
     if (lectures.length !== 0) {
       for (const lecture of lectures) {
         // Check if the instructor is already assigned to a lecture on the same date
-        const { adjustDate, instructorId } = lecture;
-        const date = moment(adjustDate)
+        const { date, instructorId } = lecture;
+        const adjustedDate = moment(date)
           .utcOffset("+05:30")
           .format("YYYY-MM-DD");
         const existingLecture = await Lecture.findOne({
-          date,
+          date: adjustedDate,
           instructorId,
         });
         if (existingLecture) {
@@ -37,7 +37,7 @@ router.post("/create", auth, async (req, res) => {
         }
         // Create a new lecture
         const newLecture = new Lecture({
-          date,
+          date: adjustedDate,
           instructorId,
           courseId,
         });
