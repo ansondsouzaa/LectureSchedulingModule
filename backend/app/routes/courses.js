@@ -4,7 +4,7 @@ const router = express.Router();
 const Course = require("../models/Course");
 const auth = require("../middleware/authMiddleware");
 const Lecture = require("../models/Lecture");
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 // create new course
 router.post("/create", auth, async (req, res) => {

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Lecture = require("../models/Lecture");
 const auth = require("../middleware/authMiddleware");
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 // create new lecture
 router.post("/new", auth, async (req, res) => {
