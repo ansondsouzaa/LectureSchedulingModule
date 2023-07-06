@@ -14,9 +14,7 @@ router.post("/new", auth, async (req, res) => {
       for (const lecture of lectures) {
         // Check if the instructor is already assigned to a lecture on the same date
         const { date, instructorId } = lecture;
-        const adjustedDate = moment(date)
-          .utcOffset("+05:30")
-          .format("YYYY-MM-DD");
+        const adjustedDate = moment(date).tz("Asia/Kolkata").toDate();
         const existingLecture = await Lecture.findOne({
           date: adjustedDate,
           instructorId,
