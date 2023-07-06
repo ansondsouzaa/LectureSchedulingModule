@@ -4,6 +4,7 @@ const router = express.Router();
 const Course = require("../models/Course");
 const auth = require("../middleware/authMiddleware");
 const Lecture = require("../models/Lecture");
+const moment = require("moment");
 
 // create new course
 router.post("/create", auth, async (req, res) => {
@@ -22,14 +23,24 @@ router.post("/create", auth, async (req, res) => {
       for (const lecture of lectures) {
         // Check if the instructor is already assigned to a lecture on the same date
         const { date, instructorId } = lecture;
-        const existingLecture = await Lecture.findOne({ date, instructorId });
+        const adjustedDate = moment(date)
+          .utcOffset("+05:30")
+          .format("YYYY-MM-DD");
+        const existingLecture = await Lecture.findOne({
+          adjustedDate,
+          instructorId,
+        });
         if (existingLecture) {
           return res.status(400).json({
             error: "Instructor already assigned to a lecture on the same date.",
           });
         }
         // Create a new lecture
-        const newLecture = new Lecture({ date, instructorId, courseId });
+        const newLecture = new Lecture({
+          adjustedDate,
+          instructorId,
+          courseId,
+        });
         await newLecture.save();
       }
     }
