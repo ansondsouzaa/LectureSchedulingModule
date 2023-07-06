@@ -9,7 +9,6 @@ const moment = require("moment-timezone");
 // create new course
 router.post("/create", auth, async (req, res) => {
   try {
-    console.log(req.body);
     const { name, level, description, image, lectures = [] } = req.body;
     const course = new Course({
       name,

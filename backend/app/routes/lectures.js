@@ -7,7 +7,6 @@ const moment = require("moment-timezone");
 // create new lecture
 router.post("/new", auth, async (req, res) => {
   try {
-    console.log(req.body);
     const { courseId, lectures = [] } = req.body;
     console.log(lectures.length);
     if (lectures.length !== 0) {
