@@ -57,7 +57,7 @@ export class LoginComponent {
             const id = res.userObj._id;
             sessionStorage.setItem('id', id);
             this.router.navigate(['/instructor/dashboard']);
-            this.toastr.success(name + ' login successful as ' + role);
+            this.toastr.success(name + " logged in successfully as " + role);
           } else {
             this.toastr.warning('Email or password do not match our records.');
           }
@@ -94,7 +94,7 @@ export class LoginComponent {
             const name = res.userObj.name;
             sessionStorage.setItem('name', name);
             this.router.navigate(['/admin/dashboard']);
-            this.toastr.success(name + ' login successful as ' + role);
+            this.toastr.success(name + " logged in successfully as " + role);
           } else {
             this.toastr.warning('Email or password do not match our records.');
           }
